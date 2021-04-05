@@ -1,23 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+
+import Form from "./components/Form"
+import List from "./components/List"
+
 
 function App() {
+
+  const [todoList, setTodoList] = useState([])
+
+  useEffect(() => {
+    async function fetchData(){
+      const {data} = await axios.get("https://keep-server.herokuapp.com/todos");
+      setTodoList(data);
+     }
+    fetchData();
+  }, [])
+
+  async function addTodo(item) {
+    const {data} = await axios.post("https://keep-server.herokuapp.com/todos", item)
+    setTodoList((prevValue)=> [...prevValue, data]  );
+  }
+  async function removeTodo(id) {
+    await axios.delete(`https://keep-server.herokuapp.com/todos/${id}`)
+    setTodoList((prevValue) => prevValue.filter((item)=> item._id !== id));
+    console.log(id);
+  }
+
+  async function editTodo(id, item) {
+    const {data} = await axios.put(`https://keep-server.herokuapp.com/todos/${id}`, item);
+
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="ui container center aligned ">
+      <h1> To-Do App </h1>
+      <br/>
+      <Form addTodo = {addTodo} />
+      <List removeTodoListProp={removeTodo} list = {todoList} editTodoListProp = {editTodo}/>
     </div>
   );
 }
