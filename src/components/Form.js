@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+//It is  used for taking input for ToDo
+const Form = ({ addTodo }) => {
 
-const Form = ({addTodo}) => {
+    const [inputVal, setValue] = useState("");
 
-    const [inputVal,setValue] =  useState("");
-
-    function handleChange(event){
+    function handleChange(event) {
         let val = event.target.value;
         setValue(val)
         console.log(val)
@@ -13,22 +13,21 @@ const Form = ({addTodo}) => {
 
     const handleFormSubmit = (event) => {
         event.preventDefault()
-        if(inputVal.trim()=== "") return;
-        addTodo({title: inputVal, completed:false})
+        if (inputVal.trim() === "") return;
+        addTodo({ title: inputVal, completed: false })
         setValue("")
     };
 
     return (
         <form className="ui form" onSubmit={handleFormSubmit} >
-            <div className="ui grid center aligned ">
-                <div className="row" >
-                <div className="column five wide" >
-                    <input  value= {inputVal} onChange={handleChange} type="text" placeholder="Enter your Work to be done..." />
-                    </div>
-                <div className= "column one wide" >   
-                    <button type="submit" className= "ui button circular icon green" > <i className= " white plus icon" ></i> </button>
-                    </div>
-                </div>
+            <div className="heading">
+                <h1>To-Do List</h1>
+            </div>
+            <div className="form">
+                <input onChange={handleChange} type="text" value={inputVal} />
+                <button>
+                    <span>Add</span>
+                </button>
             </div>
         </form>
     )

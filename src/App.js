@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
-import Form from "./components/Form"
+import Form from "./components/Form"  // Form is imported
 import List from "./components/List"
 
 
@@ -16,7 +16,7 @@ function App() {
      }
     fetchData();
   }, [])
-
+ 
   async function addTodo(item) {
     const {data} = await axios.post("https://keep-server.herokuapp.com/todos", item)
     setTodoList((prevValue)=> [...prevValue, data]  );
@@ -35,8 +35,6 @@ function App() {
 
   return (
     <div className="ui container center aligned ">
-      <h1> To-Do App </h1>
-      <br/>
       <Form addTodo = {addTodo} />
       <List removeTodoListProp={removeTodo} list = {todoList} editTodoListProp = {editTodo}/>
     </div>

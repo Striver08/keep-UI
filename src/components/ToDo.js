@@ -1,5 +1,22 @@
 import React, { useState } from "react";
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
+import { makeStyles } from '@material-ui/core/styles';
+import CheckCircleOutlineTwoToneIcon from '@material-ui/icons/CheckCircleOutlineTwoTone';
 
+const useStyles = makeStyles({
+    root: {
+        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        border: 0,
+        borderRadius: 3,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        color: 'white',
+        height: 48,
+        padding: '0 30px',
+    },
+    mar: {
+        margin: '2px'
+    }
+});
 
 function Todo({ title, completed, removeTodoItemProp, editTodoItemProp }) {
     const [isEditing, setEditing] = useState(false);
@@ -37,31 +54,22 @@ function Todo({ title, completed, removeTodoItemProp, editTodoItemProp }) {
     }
 
     return (
-        <div className="row">
-            {
-                isEditing ?
-                    <div className="column seven wide">
-                        <div className="ui input fluid" >
-                            <input onChange={handleInputOnChange} onKeyDown={handleKeyDown} autoFocus={true} value={tempValue} />
-                        </div>
-                    </div>
+        <div>
+            <li display="inline" className="mar" >
+                {
+                    isEditing ?
+                        <input display="inline" onChange={handleInputOnChange} onKeyDown={handleKeyDown} autoFocus={true} value={tempValue} />
+                        :
+                        <>
+                            <h2 display="inline" onDoubleClick={handleDoubleClick} className={completedState && "line-through"} >{value}</h2>
 
-                    :
-                    <>
-                        <div onDoubleClick={handleDoubleClick} className="column five wide">
-                            <h2 className={"ui header" + (completedState && " green")} >{value}</h2>
-                        </div>
+                            <CheckCircleOutlineTwoToneIcon onClick={handleCompleted} />
+                            <DeleteForeverRoundedIcon onClick={removeTodoItemProp} />
+                        </>
 
-                        <div className="column one wide">
-                            <button onClick={handleCompleted} className={"ui button circular icon " + (completedState ? "blue" : "green")}><i className=" white check icon" /></button>
-                        </div>
-
-                        <div className="column one wide">
-                            <button onClick={removeTodoItemProp} className="ui button circular icon red"><i className="white remove icon" /></button>
-                        </div>
-                    </>
-            }
-        </div >
+                }
+            </li>
+        </div>
 
     );
 };

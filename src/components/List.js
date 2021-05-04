@@ -11,10 +11,10 @@ const List = ({ list, removeTodoListProp, editTodoListProp }) => {
                                                     />);
 
     return (
-        <div className="ui grid center aligned ">
+        <div>
             {renderedList}
         </div>
     )
-
+ 
 }
 export default List;
